@@ -256,6 +256,8 @@ Deeper procedures and targets: **[`qa-automation/docs/QA-RUNBOOK.md`](qa-automat
 
 QA spans **three layers**: per-project tests (pytest / Playwright / lint), the **`qa-automation`** orchestration layer, and **CI** in `.github/workflows/`.
 
+**Test coverage report (for review / submission):** [`docs/TEST_COVERAGE_REPORT.md`](docs/TEST_COVERAGE_REPORT.md) — summary tables, per-service breakdown, evidence JSON paths, and reproduction commands.
+
 ### A. Per-project checks (fast feedback)
 
 | Area | Command (from repo root unless noted) |
