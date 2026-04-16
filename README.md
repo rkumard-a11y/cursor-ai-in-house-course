@@ -18,7 +18,8 @@ This repository is a **multi-project workshop**: a React (Vite) demo UI at the r
 5. [Quality assurance (QA)](#quality-assurance-qa)
 6. [Running everything at once (workshop)](#running-everything-at-once-workshop)
 7. [Repository layout](#repository-layout)
-8. [GitHub Actions (CI / CD)](#github-actions-ci--cd)
+8. [Architecture (diagrams)](#architecture-diagrams)
+9. [GitHub Actions (CI / CD)](#github-actions-ci--cd)
 
 ---
 
@@ -342,6 +343,14 @@ Ports are defined in each service’s `run.py`; change there if you have conflic
 | `qa-automation/` | QA scripts, thresholds, security/perf configs, reports |
 | `.github/workflows/` | CI, CodeQL, dependency review, blue-green template |
 | `docs/` | CI/CD performance and optimization notes |
+
+---
+
+## Architecture (diagrams)
+
+High-level **Mermaid** diagrams (system context, monorepo layout, data stores, QA attachment, CI overview): [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md).
+
+**PNG/SVG export:** `npm run diagrams:export` (or `diagrams:export:svg` / `diagrams:export:png`) after `npm install` — see [`docs/ARCHITECTURE.md` §6](docs/ARCHITECTURE.md#6-exporting-diagrams-png--svg) and [`docs/diagrams/README.md`](docs/diagrams/README.md).
 
 ---
 

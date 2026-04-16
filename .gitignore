@@ -83,3 +83,8 @@ qa-automation/reports/RECOMMENDATIONS.md
 .cache/
 *.tmp
 .temp/
+
+# --- Mermaid CLI exports (see docs/diagrams/README.md; use git add -f to vendor) ---
+docs/diagrams/svg/
+docs/diagrams/png/
+docs/diagrams/build/
