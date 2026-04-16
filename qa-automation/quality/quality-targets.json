@@ -1,0 +1,8 @@
+{
+  "coverage_pct_min": 80,
+  "cyclomatic_complexity_max": 10,
+  "security_critical_max": 0,
+  "http_p95_ms_max": 500,
+  "http_error_rate_max_pct": 1,
+  "notes": "Used by reports/generate-report.py and scripts/analyze-results.py. Tune per release."
+}

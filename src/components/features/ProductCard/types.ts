@@ -15,6 +15,10 @@ export type Product = {
   reviewCount?: number
   /** Catalog segment for search & filters */
   category?: string
+  /** Units available for checkout demos; omitted = large default stock */
+  stock?: number
+  /** When false, add-to-cart is disabled (discontinued SKU) */
+  active?: boolean
 }
 
 export type ProductCardProps = {

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QA quality dashboard</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --text: #e2e8f0;
+      --muted: #94a3b8;
+      --accent: #a78bfa;
+      --ok: #22c55e;
+      --bad: #ef4444;
+      --warn: #eab308;
+    }
+    body { font-family: system-ui, sans-serif; margin: 0; background: var(--bg); color: var(--text); }
+    header { padding: 1.5rem 2rem; border-bottom: 1px solid #334155; }
+    h1 { margin: 0; font-size: 1.35rem; color: var(--accent); }
+    main { padding: 2rem; max-width: 960px; margin: 0 auto; }
+    .card { background: var(--card); border-radius: 12px; padding: 1.25rem 1.5rem; margin-bottom: 1.25rem; }
+    h2 { margin-top: 0; font-size: 1.05rem; color: #cbd5e1; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th, td { text-align: left; padding: 0.5rem 0.35rem; border-bottom: 1px solid #334155; }
+    .pill { display: inline-block; padding: 0.15rem 0.5rem; border-radius: 999px; font-size: 0.75rem; font-weight: 600; }
+    .pill.pass { background: #14532d; color: #86efac; }
+    .pill.fail { background: #7f1d1d; color: #fecaca; }
+    .pill.na { background: #334155; color: var(--muted); }
+    .bar { height: 10px; background: #334155; border-radius: 6px; overflow: hidden; margin: 0.25rem 0 1rem; }
+    .bar-fill { height: 100%; border-radius: 6px; transition: width 0.4s ease; }
+    .bar-fill.cov { background: linear-gradient(90deg, #6366f1, #a78bfa); }
+    .bar-fill.cc { background: linear-gradient(90deg, #f97316, #eab308); }
+    .bar-label { font-size: 0.8rem; color: var(--muted); }
+    .muted { color: var(--muted); font-size: 0.85rem; }
+    ul.kv { list-style: none; padding: 0; margin: 0; }
+    ul.kv li { padding: 0.35rem 0; border-bottom: 1px solid #334155; }
+    pre { background: #0f172a; padding: 1rem; border-radius: 8px; overflow: auto; font-size: 0.75rem; color: #cbd5e1; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>QA quality dashboard</h1>
+    <p class="muted">Generated 2026-04-16T06:24:59.027256+00:00 — see also <code>RECOMMENDATIONS.md</code></p>
+  </header>
+  <main>
+    
+    <section class="card">
+      <h2>Quality targets</h2>
+      <table>
+        <thead><tr><th>Metric</th><th>Target</th><th>Actual</th><th>Status</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Test coverage (lines)</td>
+            <td>≥ 80%</td>
+            <td>75.0%</td>
+            <td><span class="pill fail">fail</span></td>
+          </tr>
+          <tr>
+            <td>Cyclomatic complexity (max)</td>
+            <td>&lt; 10</td>
+            <td>17</td>
+            <td><span class="pill fail">fail</span></td>
+          </tr>
+          <tr>
+            <td>Security (Snyk critical)</td>
+            <td>≤ 0</td>
+            <td>—</td>
+            <td><span class="pill na">n/a</span></td>
+          </tr>
+          <tr>
+            <td>HTTP p95 (k6)</td>
+            <td>&lt; 500 ms</td>
+            <td>—</td>
+            <td><span class="pill na">n/a</span></td>
+          </tr>
+          <tr>
+            <td>Error rate (k6 checks)</td>
+            <td>&lt; 1%</td>
+            <td>—</td>
+            <td><span class="pill na">n/a</span></td>
+          </tr>
+          <tr>
+            <td>E2E (Playwright) failure rate</td>
+            <td>&lt; 1%</td>
+            <td>0.00% (80/80)</td>
+            <td><span class="pill fail">fail</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <section class="card">
+      <h2>Visualization</h2>
+      <p class="muted">Coverage toward goal (capped at 100%). Complexity bar shows headroom vs target (lower is better).</p>
+      <div class="bar-label">Coverage vs 80% goal</div>
+      <div class="bar"><div class="bar-fill cov" style="width:75.0%"></div></div>
+      <div class="bar-label">Max CCN vs limit 10</div>
+      <div class="bar"><div class="bar-fill cc" style="width:100.0%"></div></div>
+    </section>
+    
+    
+    <section class="card">
+      <h2>Tooling snapshot</h2>
+      <ul class="kv">
+        <li><strong>Pytest (QA)</strong>: 0 tests, failures=0, errors=0</li>
+        <li><strong>Jest</strong>: failed tests = 0</li>
+        <li><strong>ESLint</strong>: errors=0, warnings=0</li>
+        <li><strong>Pylint</strong>: score=5.96</li>
+        <li><strong>ZAP log lines</strong>: 0</li>
+      </ul>
+    </section>
+    
+    <section class="card">
+      <h2>Raw JSON</h2>
+      <pre>{
+  &quot;generated_at&quot;: &quot;2026-04-16T06:24:59.027256+00:00&quot;,
+  &quot;targets&quot;: {
+    &quot;coverage_pct_min&quot;: 80,
+    &quot;cyclomatic_complexity_max&quot;: 10,
+    &quot;security_critical_max&quot;: 0,
+    &quot;http_p95_ms_max&quot;: 500,
+    &quot;http_error_rate_max_pct&quot;: 1,
+    &quot;notes&quot;: &quot;Used by reports/generate-report.py and scripts/analyze-results.py. Tune per release.&quot;
+  },
+  &quot;metrics&quot;: {
+    &quot;coverage_lines_pct&quot;: {
+      &quot;jest&quot;: {
+        &quot;lines_pct&quot;: 75.0,
+        &quot;path&quot;: &quot;reports/raw/jest-coverage/coverage-summary.json&quot;
+      },
+      &quot;pytest_backend&quot;: null,
+      &quot;combined_max_pct&quot;: 75.0,
+      &quot;target_min_pct&quot;: 80.0,
+      &quot;pass&quot;: false
+    },
+    &quot;cyclomatic_complexity&quot;: {
+      &quot;max_ccn&quot;: 17,
+      &quot;target_max&quot;: 10,
+      &quot;pass&quot;: false
+    },
+    &quot;security_critical&quot;: {
+      &quot;count&quot;: null,
+      &quot;target_max&quot;: 0,
+      &quot;pass&quot;: false,
+      &quot;unknown&quot;: true
+    },
+    &quot;k6_http&quot;: {
+      &quot;p95_ms&quot;: null,
+      &quot;error_rate_pct&quot;: null,
+      &quot;target_p95_ms_max&quot;: 500.0,
+      &quot;target_error_rate_max_pct&quot;: 1.0,
+      &quot;pass_p95&quot;: null,
+      &quot;pass_errors&quot;: null,
+      &quot;unknown&quot;: true
+    },
+    &quot;playwright&quot;: {
+      &quot;tests&quot;: 80,
+      &quot;failures&quot;: 0,
+      &quot;errors&quot;: 0,
+      &quot;passed&quot;: 80,
+      &quot;error_rate_pct&quot;: 0.0,
+      &quot;target_error_rate_max_pct&quot;: 1.0,
+      &quot;pass&quot;: false,
+      &quot;unknown&quot;: false
+    }
+  },
+  &quot;pytest&quot;: {
+    &quot;junit&quot;: &quot;reports/raw/pytest.xml&quot;,
+    &quot;errors&quot;: 0,
+    &quot;failures&quot;: 0,
+    &quot;tests&quot;: 0
+  },
+  &quot;jest&quot;: {
+    &quot;path&quot;: &quot;reports/raw/jest-results.json&quot;,
+    &quot;failed&quot;: 0
+  },
+  &quot;eslint&quot;: {
+    &quot;errorCount&quot;: 0,
+    &quot;warningCount&quot;: 0
+  },
+  &quot;pylint&quot;: {
+    &quot;score&quot;: 5.96,
+    &quot;path&quot;: &quot;reports/raw/pylint.txt&quot;
+  },
+  &quot;snyk&quot;: {
+    &quot;root&quot;: null,
+    &quot;backend&quot;: null
+  },
+  &quot;zap&quot;: {
+    &quot;log_lines&quot;: 0
+  }
+}</pre>
+    </section>
+  </main>
+</body>
+</html>

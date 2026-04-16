@@ -1,0 +1,5 @@
+pytest>=8.0.0
+pytest-cov>=4.1.0
+pylint>=3.0.0
+requests>=2.31.0
+lizard>=1.17.0

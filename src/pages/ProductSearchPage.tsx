@@ -318,7 +318,14 @@ export function ProductCatalogSearch({ onAddToCart }: ProductCatalogSearchProps)
           <ul className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-2">
             {pageItems.map((product) => (
               <li key={product.id} data-testid={`product-card-${product.id}`}>
-                <ProductCard product={product} onAddToCart={onAddToCart} />
+                <ProductCard
+                  product={product}
+                  onAddToCart={onAddToCart}
+                  addDisabled={
+                    product.active === false ||
+                    (product.stock !== undefined && product.stock <= 0)
+                  }
+                />
               </li>
             ))}
           </ul>

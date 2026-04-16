@@ -1,0 +1,24 @@
+# PR dependency review — flags vulnerable transitive deps (GitHub Dependency graph).
+# Private repos require GitHub Advanced Security; public repos: free.
+
+name: Dependency review
+
+on:
+  pull_request:
+    branches: [main, master]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  review:
+    name: Review lockfile changes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: moderate
+          comment-summary-in-pr: true

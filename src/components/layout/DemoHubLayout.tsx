@@ -14,7 +14,7 @@ const MENU: { id: DemoHubRoute; label: string; hint: string }[] = [
   {
     id: 'products',
     label: 'Products',
-    hint: 'Catalog · search · filters · cart',
+    hint: 'Catalog · search · filters · checkout · promo codes',
   },
   {
     id: 'profiles',

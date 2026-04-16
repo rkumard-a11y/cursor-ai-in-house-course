@@ -67,7 +67,14 @@ export function ProductCardDemoPage({
       <ul className="grid list-none grid-cols-1 gap-8 p-0 sm:grid-cols-2 sm:gap-8 lg:grid-cols-3 lg:gap-10">
         {SAMPLE_PRODUCTS.map((product) => (
           <li key={product.id} className="min-w-0">
-            <ProductCard product={product} onAddToCart={addToCart} />
+            <ProductCard
+              product={product}
+              onAddToCart={addToCart}
+              addDisabled={
+                product.active === false ||
+                (product.stock !== undefined && product.stock <= 0)
+              }
+            />
           </li>
         ))}
       </ul>

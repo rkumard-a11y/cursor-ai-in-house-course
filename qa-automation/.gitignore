@@ -1,0 +1,5 @@
+node_modules/
+reports/raw/
+reports/dashboard_data.json
+reports/RECOMMENDATIONS.md
+*.log

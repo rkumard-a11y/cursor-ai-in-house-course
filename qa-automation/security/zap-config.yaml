@@ -1,0 +1,18 @@
+# OWASP ZAP automation baseline (used by security-scan.sh with zaproxy/docker).
+# Docs: https://www.zaproxy.org/docs/docker/baseline/
+
+env:
+  contexts:
+    - name: "default"
+      urls:
+        - "${ZAP_TARGET:http://127.0.0.1:5173}"
+  parameters:
+    failOnError: true
+    failOnWarning: false
+
+jobs:
+  - type: passiveScan-wait
+  - type: spider
+    parameters:
+      maxDuration: 2
+  - type: passiveScan-wait

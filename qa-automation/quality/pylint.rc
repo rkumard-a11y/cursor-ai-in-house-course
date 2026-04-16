@@ -1,0 +1,18 @@
+[MAIN]
+jobs = 0
+fail-under = 0.0
+py-version = 3.12
+
+[MESSAGES CONTROL]
+disable =
+    missing-module-docstring,
+    missing-class-docstring,
+    missing-function-docstring,
+    too-few-public-methods,
+    import-outside-toplevel,
+
+[FORMAT]
+max-line-length = 120
+
+[BASIC]
+good-names = i,j,k,ex,Run,_,id,db

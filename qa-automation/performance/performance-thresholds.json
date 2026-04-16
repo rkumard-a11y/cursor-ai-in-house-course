@@ -1,0 +1,12 @@
+{
+  "lighthouse": {
+    "performance_min": 0.35,
+    "accessibility_min": 0.85
+  },
+  "k6": {
+    "http_req_duration": {
+      "p95_ms": 500
+    },
+    "error_rate_max": 0.01
+  }
+}

@@ -4,6 +4,7 @@ import type { Product } from '../components'
 export const SAMPLE_PRODUCTS: Product[] = [
   {
     id: 'p-aurora-desk',
+    stock: 12,
     title: 'Aurora standing desk',
     description:
       'Motorized height adjustment, memory presets, and a whisper-quiet dual motor. Ships flat with tool-free assembly.',
@@ -17,6 +18,7 @@ export const SAMPLE_PRODUCTS: Product[] = [
   },
   {
     id: 'p-lumen-lamp',
+    stock: 40,
     title: 'Lumen ceramic desk lamp',
     description:
       'Warm dimmable LED, touch controls, and a matte ceramic base. Designed for long evening work sessions.',
@@ -29,6 +31,7 @@ export const SAMPLE_PRODUCTS: Product[] = [
   },
   {
     id: 'p-echo-headphones',
+    stock: 80,
     title: 'Echo ANC headphones',
     description:
       'Hybrid active noise cancellation, 32-hour battery, and breathable memory-foam ear cushions.',
@@ -42,6 +45,7 @@ export const SAMPLE_PRODUCTS: Product[] = [
   },
   {
     id: 'p-canvas-pack',
+    stock: 25,
     title: 'Canvas weekender bag',
     description:
       'Waxed canvas, brass hardware, and a padded laptop sleeve. Carry-on friendly for most airlines.',
@@ -55,6 +59,8 @@ export const SAMPLE_PRODUCTS: Product[] = [
   {
     id: 'p-steel-bottle',
     title: 'Steel insulated bottle — 32oz',
+    active: false,
+    stock: 0,
     description:
       'Keeps drinks cold for 24 hours or hot for 12. Powder coat finish resists chips and fingerprints.',
     price: 42,
@@ -66,6 +72,7 @@ export const SAMPLE_PRODUCTS: Product[] = [
   },
   {
     id: 'p-notebook-set',
+    stock: 3,
     title: 'Archivist notebook set (3)',
     description:
       'Lay-flat binding, 120gsm acid-free paper, and numbered volumes. A favorite for journaling and field notes.',

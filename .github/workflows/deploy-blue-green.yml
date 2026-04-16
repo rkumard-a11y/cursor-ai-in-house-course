@@ -1,0 +1,135 @@
+# Blue-green style deployment template + automated rollback + monitoring hook.
+#
+# Intended pattern:
+#   1) Deploy new revision to "green" (staging slot / preview URL / canary tag).
+#   2) Run smoke / health checks against green.
+#   3) On success: promote traffic to green (swap target group, update DNS, flip feature flag).
+#   4) On failure: rollback — redeploy last known-good artifact or point traffic back to blue.
+#
+# Wire your platform in the steps below (Kubernetes, ECS, Fly.io, Cloud Run, etc.).
+# Secrets (examples):
+#   GREEN_DEPLOY_URL / BLUE_DEPLOY_URL — webhooks or API endpoints
+#   SMOKE_TEST_URL — health check after green deploy
+#   MONITORING_DEPLOYMENT_URL — optional APM / incident tool deployment marker
+
+name: Deploy (blue-green template)
+
+on:
+  workflow_dispatch:
+    inputs:
+      image_tag:
+        description: "Container image tag or release id to deploy to green"
+        required: true
+        type: string
+        default: "latest"
+
+concurrency:
+  group: deploy-blue-green
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy-green:
+    name: 1 — Deploy to green slot
+    runs-on: ubuntu-latest
+    environment:
+      name: production-green
+      url: ${{ steps.meta.outputs.green_url }}
+    outputs:
+      tag: ${{ inputs.image_tag }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: meta
+        run: |
+          U="${{ vars.GREEN_PUBLIC_URL }}"
+          if [ -z "$U" ]; then U="https://green.example.invalid"; fi
+          echo "green_url=$U" >> "$GITHUB_OUTPUT"
+          echo "Deploy tag: ${{ inputs.image_tag }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "Replace this job with your real green deploy (helm upgrade, fly deploy --app myapp-green, etc.)."
+
+      - name: Optional — trigger green deploy
+        if: ${{ secrets.GREEN_DEPLOY_WEBHOOK != '' }}
+        env:
+          HOOK: ${{ secrets.GREEN_DEPLOY_WEBHOOK }}
+        run: |
+          curl -fsS -X POST "$HOOK" \
+            -H "Content-Type: application/json" \
+            -d "{\"tag\":\"${{ inputs.image_tag }}\",\"slot\":\"green\"}"
+
+  smoke-green:
+    name: 2 — Smoke test green
+    runs-on: ubuntu-latest
+    needs: [deploy-green]
+    steps:
+      - id: smoke
+        run: |
+          set -e
+          URL="${{ vars.SMOKE_TEST_URL }}"
+          if [ -z "$URL" ]; then
+            echo "Set repository variable SMOKE_TEST_URL to enable HTTP smoke checks."
+            exit 0
+          fi
+          for i in 1 2 3 4 5; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" "$URL" || echo "000")
+            if [ "$code" = "200" ] || [ "$code" = "204" ]; then
+              echo "Smoke OK ($code)"
+              exit 0
+            fi
+            sleep 3
+          done
+          echo "Smoke failed for $URL"
+          exit 1
+
+  promote:
+    name: 3a — Promote green → live (blue cutover)
+    runs-on: ubuntu-latest
+    needs: [smoke-green]
+    if: needs.smoke-green.result == 'success'
+    environment:
+      name: production
+    steps:
+      - name: Promote traffic to green
+        run: |
+          echo "Implement promotion: swap load balancer, update edge config, or merge canary." >> "$GITHUB_STEP_SUMMARY"
+      - name: Optional — production cutover webhook
+        if: ${{ secrets.PROMOTE_WEBHOOK != '' }}
+        env:
+          HOOK: ${{ secrets.PROMOTE_WEBHOOK }}
+        run: |
+          curl -fsS -X POST "$HOOK" \
+            -H "Content-Type: application/json" \
+            -d "{\"action\":\"promote\",\"tag\":\"${{ needs.deploy-green.outputs.tag }}\"}"
+
+  rollback:
+    name: 3b — Rollback on smoke failure
+    runs-on: ubuntu-latest
+    needs: [smoke-green]
+    if: needs.smoke-green.result == 'failure'
+    steps:
+      - name: Point traffic back to blue / previous revision
+        run: |
+          echo "## Rollback executed" >> "$GITHUB_STEP_SUMMARY"
+          echo "Smoke tests failed; restore last-good deployment (re-run previous image, DNS revert, or Helm rollback)." >> "$GITHUB_STEP_SUMMARY"
+      - name: Optional — rollback webhook
+        if: ${{ secrets.ROLLBACK_WEBHOOK != '' }}
+        env:
+          HOOK: ${{ secrets.ROLLBACK_WEBHOOK }}
+        run: curl -fsS -X POST "$HOOK" -d '{"action":"rollback"}' || true
+
+  notify-monitoring:
+    name: 4 — Monitoring integration (post-promote)
+    runs-on: ubuntu-latest
+    needs: [promote]
+    if: needs.promote.result == 'success'
+    steps:
+      - name: Optional — APM / observability deployment event
+        if: ${{ secrets.MONITORING_DEPLOYMENT_URL != '' }}
+        env:
+          M: ${{ secrets.MONITORING_DEPLOYMENT_URL }}
+        run: |
+          curl -fsS -X POST "$M" \
+            -H "Content-Type: application/json" \
+            -d "{\"deployment\":\"${{ needs.deploy-green.outputs.tag }}\",\"status\":\"success\"}" || true

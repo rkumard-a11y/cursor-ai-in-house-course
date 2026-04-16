@@ -12,7 +12,12 @@ export function DemoProductPage() {
 
   const addToCart = useCallback(
     (product: Product) => {
-      addToCartContext(product)
+      const result = addToCartContext(product, 1)
+      if (!result.ok) {
+        setToast(result.message)
+        window.setTimeout(() => setToast(null), 4200)
+        return
+      }
       setToast(`${product.title} added to cart.`)
       window.setTimeout(() => setToast(null), 3200)
     },
